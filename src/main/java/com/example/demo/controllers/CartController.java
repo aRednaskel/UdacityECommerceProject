@@ -27,14 +27,14 @@ public class CartController {
 	
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private CartRepository cartRepository;
-	
+
 	@Autowired
 	private ItemRepository itemRepository;
 
-	private Logger log = LoggerFactory.getLogger(CartController.class);
+	private final Logger log = LoggerFactory.getLogger(CartController.class);
 	
 	@PostMapping("/addToCart")
 	public ResponseEntity<Cart> addTocart(@RequestBody ModifyCartRequest request) {

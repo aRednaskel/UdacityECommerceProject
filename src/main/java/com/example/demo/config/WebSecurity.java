@@ -13,8 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
-    private UserDetailServiceImpl userDetailService;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserDetailServiceImpl userDetailService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public WebSecurity(UserDetailServiceImpl userDetailService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDetailService = userDetailService;
@@ -29,7 +29,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthenticationVerificationFilter(authenticationManager()))
-                // this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
@@ -45,11 +44,4 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .userDetailsService(userDetailService)
                 .passwordEncoder(bCryptPasswordEncoder);
     }
-
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-//        return source;
-//    }
 }
