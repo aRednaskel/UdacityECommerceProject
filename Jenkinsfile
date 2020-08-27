@@ -1,5 +1,9 @@
+
 pipeline {
     agent any
+    tools {
+        maven "M3"
+    }
     stages{
         stage ("Build"){
             steps { sh 'mvn -B -DskipTests clean package'}
@@ -8,11 +12,9 @@ pipeline {
                     steps {
                         sh 'mvn test'
                     }
-                    post {
-                        always {
-                            junit 'target/surefire-reports/*.xml'
-                        }
-                    }
+                }
+        stage ("Deploy"){
+                    steps { sh 'mvn clean heroku:deploy'}
                 }
     }
 }
