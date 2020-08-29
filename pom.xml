@@ -90,7 +90,7 @@
 				<configuration>
 					<appName>udacity-ecommerce</appName>
 					<processTypes>
-						<web>java -jar -Dserver.port=$PORT target/${project.build.finalName}.jar</web>
+						<web>java -Dserver.port=$PORT $JAVA_OPTS -jar target/${project.build.finalName}.jar</web>
 					</processTypes>
 				</configuration>
 			</plugin>
