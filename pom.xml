@@ -63,9 +63,22 @@
 			<artifactId>log4j-core</artifactId>
 		</dependency>
 
-
+		<!-- https://mvnrepository.com/artifact/com.splunk/splunk -->
+		<dependency>
+			<groupId>com.splunk</groupId>
+			<artifactId>splunk</artifactId>
+			<version>1.6.5.0</version>
+		</dependency>
 
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>splunk-artifactory</id>
+			<name>Splunk Releases</name>
+			<url>https://splunk.jfrog.io/splunk/ext-releases-local</url>
+		</repository>
+	</repositories>
 
 	<build>
 		<plugins>

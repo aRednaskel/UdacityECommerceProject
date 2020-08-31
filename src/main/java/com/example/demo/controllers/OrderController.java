@@ -30,19 +30,19 @@ public class OrderController {
 	@Autowired
 	private OrderRepository orderRepository;
 
-	private Logger log = LoggerFactory.getLogger(OrderController.class);
+	private final Logger log = LoggerFactory.getLogger(OrderController.class);
 	
 	
 	@PostMapping("/submit/{username}")
 	public ResponseEntity<UserOrder> submit(@PathVariable String username) {
 		User user = userRepository.findByUsername(username);
 		if(user == null) {
-			log.error("Unable to find user with username {}", username);
+			log.error("OrderError: Unable to find user with username {}", username);
 			return ResponseEntity.notFound().build();
 		}
 		UserOrder order = UserOrder.createFromCart(user.getCart());
 		orderRepository.save(order);
-		log.info("Order with id {} was saved successfully", order.getId());
+		log.info("OrderCreation: Order with id {} was saved successfully", order.getId());
 		return ResponseEntity.ok(order);
 	}
 	
@@ -50,10 +50,10 @@ public class OrderController {
 	public ResponseEntity<List<UserOrder>> getOrdersForUser(@PathVariable String username) {
 		User user = userRepository.findByUsername(username);
 		if(user == null) {
-			log.error("Unable to find user with username {}", username);
+			log.error("OrderError: Unable to find user with username {}", username);
 			return ResponseEntity.notFound().build();
 		}
-		log.info("Order list with username {} was found in the database", username);
+		log.info("OrderHistory: Order list with username {} was found in the database", username);
 		return ResponseEntity.ok(orderRepository.findByUser(user));
 	}
 }

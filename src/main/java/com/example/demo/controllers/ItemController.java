@@ -22,7 +22,7 @@ public class ItemController {
 	@Autowired
 	private ItemRepository itemRepository;
 
-	private Logger log = LoggerFactory.getLogger(ItemController.class);
+	private final Logger log = LoggerFactory.getLogger(ItemController.class);
 	
 	@GetMapping
 	public ResponseEntity<List<Item>> getItems() {
@@ -35,7 +35,7 @@ public class ItemController {
 		if (item.isPresent()) {
 			return ResponseEntity.of(item);
 		} else {
-			log.error("Unable to find item with id {}", id);
+			log.error("ItemError: Unable to find item with id {}", id);
 			return ResponseEntity.notFound().build();
 		}
 	}
@@ -44,7 +44,7 @@ public class ItemController {
 	public ResponseEntity<List<Item>> getItemsByName(@PathVariable String name) {
 		List<Item> items = itemRepository.findByName(name);
 		if(items == null || items.isEmpty()){
-			log.error("Unable to find item with name {}", name);
+			log.error("ItemError: Unable to find item with name {}", name);
 			return ResponseEntity.notFound().build();
 		}else{
 			return ResponseEntity.ok(items);

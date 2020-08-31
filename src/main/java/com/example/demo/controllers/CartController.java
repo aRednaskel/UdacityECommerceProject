@@ -40,19 +40,19 @@ public class CartController {
 	public ResponseEntity<Cart> addTocart(@RequestBody ModifyCartRequest request) {
 		User user = userRepository.findByUsername(request.getUsername());
 		if(user == null) {
-			log.error("User with username {} wasn't found", request.getUsername());
+			log.error("CartError: User with username {} wasn't found", request.getUsername());
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Optional<Item> item = itemRepository.findById(request.getItemId());
 		if(!item.isPresent()) {
-			log.error("Item with id {} wasn't found in the database", request.getItemId());
+			log.error("CartError: Item with id {} wasn't found in the database", request.getItemId());
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Cart cart = user.getCart();
 		IntStream.range(0, request.getQuantity())
 			.forEach(i -> cart.addItem(item.get()));
 		cartRepository.save(cart);
-		log.info("Item with id {} was added to the cart of user with username {} successfully", request.getItemId(), request.getUsername());
+		log.info("CartModified: Item with id {} was added to the cart of user with username {} successfully", request.getItemId(), request.getUsername());
 		return ResponseEntity.ok(cart);
 	}
 	
@@ -60,12 +60,12 @@ public class CartController {
 	public ResponseEntity<Cart> removeFromcart(@RequestBody ModifyCartRequest request) {
 		User user = userRepository.findByUsername(request.getUsername());
 		if(user == null) {
-			log.error("User with username {} wasn't found", request.getUsername());
+			log.error("CartError: User with username {} wasn't found", request.getUsername());
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Optional<Item> item = itemRepository.findById(request.getItemId());
 		if(!item.isPresent()) {
-			log.error("Item with id {} wasn't found in the database", request.getItemId());
+			log.error("CartError: Item with id {} wasn't found in the database", request.getItemId());
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		Cart cart = user.getCart();
@@ -73,9 +73,9 @@ public class CartController {
 			IntStream.range(0, request.getQuantity())
 					.forEach(i -> cart.removeItem(item.get()));
 			cartRepository.save(cart);
-			log.info("Item {} was removed from cart successfully", item.get().getName());
+			log.info("CartModified: Item {} was removed from cart successfully", item.get().getName());
 		} else {
-			log.error("Item {} wasn't found in the cart", item.get().getName());
+			log.error("CartError: Item {} wasn't found in the cart", item.get().getName());
 		}
 		return ResponseEntity.ok(cart);
 	}
